@@ -71,8 +71,12 @@ function escapeHtml(text) {
         .replace(/'/g, "&#039;");
 }
 
-const PORT = process.env.PORT || 3000;
+if (require.main === module) {
+    const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
-});
+    app.listen(PORT, () => {
+        console.log(`Server running at http://localhost:${PORT}`);
+    });
+}
+
+module.exports = app;
