@@ -11,7 +11,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname, "public")));
 
 app.post("/api/states", async (req, res) => {
     try {
